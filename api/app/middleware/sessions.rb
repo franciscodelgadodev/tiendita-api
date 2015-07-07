@@ -1,3 +1,5 @@
+require_relative './base'
+
 class Tiendita::Api::App
   module Middleware
     class Sessions < Base

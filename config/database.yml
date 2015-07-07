@@ -1,0 +1,7 @@
+# TODO
+# Add .env files
+
+development:
+  adapter:  sqlite3
+  database: tiendita_development
+  encoding: unicode
