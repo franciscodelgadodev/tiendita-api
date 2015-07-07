@@ -1,16 +1,42 @@
-require 'sinatra/base'
-require 'json'
-require 'active_support'
-require 'active_support/core_ext/class/subclasses'
-
 module Tiendita
   module Api
     class App
-      autoload :Base, './api/app/base'
-      autoload :Middleware, './api/app/middleware'
-      autoload :Endpoint, './api/app/endpoint'
+      require_relative './app/base'
+      require_relative './app/config'
+      require_relative './app/middleware'
+      require_relative './app/endpoint'
 
       attr_reader :app
+
+      class << self
+        def new
+          setup
+          super
+        end
+
+        def setup
+          setup! unless setup?
+        end
+
+        def setup?
+          @setup ||= false
+        end
+
+        private
+
+        def setup!
+          load_serializers
+          setup_endpoints
+        end
+
+        def setup_endpoints
+          Tiendita::Api::App::Base.subclasses.each(&:setup)
+        end
+
+        def load_serializers
+          Dir.glob("#{__dir__}/app/serializers/*.rb").each { |f| require f }
+        end
+      end
 
       def initialize
         @app = Rack::Builder.app do

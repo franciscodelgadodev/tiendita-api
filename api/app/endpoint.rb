@@ -1,5 +1,6 @@
-require './api/app/endpoint/base'
-require './api/app/endpoint/home'
+require_relative './endpoint/base'
+require_relative './endpoint/home'
+require_relative './endpoint/products'
 
 class Tiendita::Api::App
   module Endpoint
